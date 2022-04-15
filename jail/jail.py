@@ -10,11 +10,13 @@ from core.checks import PermissionLevel
 if TYPE_CHECKING:
     from pymongo.collection import Collection
     from pymongo.database import Database
+    from bot import ModmailBot
 
 
 class Jail(commands.Cog):
     def __init__(self, bot):
-        self.bot: commands.Bot = bot
+        self.bot: ModmailBot = bot
+        print(self.bot.api.get_config())
         self.cursor: Collection = bot.api.get_plugin_partition(self)
         self.db: Database = self.cursor.database
         self.setup_database.start()
