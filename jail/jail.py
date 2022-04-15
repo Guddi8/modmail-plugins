@@ -28,7 +28,7 @@ class Jail(commands.Cog):
     @tasks.loop(count=1)
     async def setup_database(self):
         """Sets up a new collection for the jail plugin (if it not already exists)"""
-        logger.info('config: '+await self.bot.api.get_config())
+        logger.info('config: '+str(await self.bot.api.get_config()))
         self.bot_log = self.bot.get_channel(self.bot.config['log_channel_id'])
         result = await self.cursor.find_one({'TYPE': f'CONFIG'})
         if not result:
