@@ -105,7 +105,7 @@ class Jail(commands.Cog):
         """
         Add a user to the jail.
         """
-        await ctx.send('NotImplemented')
+        await ctx.send(f'NotImplemented `{member}`')
 
 
     @jail.command(name='remove', aliases=['rem', 'r'])
@@ -114,7 +114,9 @@ class Jail(commands.Cog):
         """
         Add a user to the jail.
         """
-        await ctx.send('NotImplemented')
+        await ctx.send(f'NotImplemented `{member}`')
+
+
 
 
 def setup(bot):
