@@ -6,8 +6,6 @@ from discord.ext import commands, tasks
 from core import checks
 from core.models import PermissionLevel, getLogger
 
-logger = getLogger()
-
 
 if TYPE_CHECKING:
     from pymongo.collection import Collection
@@ -16,6 +14,8 @@ if TYPE_CHECKING:
 
 
 class Jail(commands.Cog):
+    logger = getLogger()
+
     def __init__(self, bot):
         self.bot: ModmailBot = bot
         self.cursor: Collection = bot.api.get_plugin_partition(self)
@@ -28,7 +28,6 @@ class Jail(commands.Cog):
     @tasks.loop(count=1)
     async def setup_database(self):
         """Sets up a new collection for the jail plugin (if it not already exists)"""
-        logger.info('config: '+str(await self.bot.api.get_config()))
         self.bot_log = self.bot.get_channel(self.bot.config['log_channel_id'])
         result = await self.cursor.find_one({'TYPE': f'CONFIG'})
         if not result:
@@ -38,9 +37,9 @@ class Jail(commands.Cog):
                 'jail_log_id': None,
             }
             result = await self.cursor.insert_one(data)
-            await self.bot_log.send(f"**__Setup for Jail Plugin__**\n\n**Created configs:** `{result}`")
+            logger.info(f'Jail Plugin: Created configs: {result}')
         else:
-            await self.bot_log.send(f"**__Setup for Jail Plugin__**\n\n**DB is already set!**`", delete_after=10)
+            logger.info(f'Jail Plugin: DB already exists')
 
 
     @commands.group(aliases=['knast'], invoke_without_command=True)
